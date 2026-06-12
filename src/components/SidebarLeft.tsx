@@ -77,14 +77,15 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
 
   return (
     <div
-      className="w-72 h-full flex flex-col gap-3 border-r border-[rgba(0,240,255,0.15)] select-none shrink-0"
+      className="w-72 h-full flex flex-col border-r border-[rgba(0,240,255,0.15)] select-none shrink-0"
       style={{
         background: 'rgba(2, 4, 9, 0.88)',
         backdropFilter: 'blur(16px)',
-        overflowY: 'auto',
-        padding: '20px 24px',
+        overflow: 'hidden',
       }}
     >
+    {/* Scrollable wrapper for everything */}
+    <div className="flex flex-col gap-3 flex-1 overflow-y-auto" style={{ padding: '20px 24px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(0,240,255,0.2) transparent' }}>
       {/* ── SEARCH ─────────────────────────────────────────────── */}
       <div className="relative font-mono mb-1">
         {/* Glowing card wrapper */}
@@ -154,12 +155,22 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
 
       {/* ── PATIENTS ───────────────────────────────────────────── */}
       <div className="flex flex-col">
-        <div className="flex items-center gap-1 border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono">
-          <Users className="w-3.5 h-3.5 text-[#00f0ff]/70" />
-          <span className="text-[12px] font-black tracking-wider text-gray-300">PATIENTS</span>
+        <div className="flex items-center justify-between border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono">
+          <div className="flex items-center gap-1">
+            <Users className="w-3.5 h-3.5 text-[#00f0ff]/70" />
+            <span className="text-[12px] font-black tracking-wider text-gray-300">PATIENTS</span>
+          </div>
+          <span
+            className="text-[10px] font-mono px-1.5 py-0.5 rounded"
+            style={{ background: 'rgba(0,240,255,0.1)', color: '#00f0ff', border: '1px solid rgba(0,240,255,0.25)' }}
+          >{patients.length}</span>
         </div>
 
-        <div className="flex flex-col gap-1">
+        {/* Scrollable patient list */}
+        <div
+          className="flex flex-col gap-1 overflow-y-auto pr-0.5"
+          style={{ maxHeight: '340px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(0,240,255,0.18) transparent' }}
+        >
           {/* ALL PATIENTS row */}
           <button
             onClick={() => onSelectPatient(null)}
@@ -390,6 +401,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 };
