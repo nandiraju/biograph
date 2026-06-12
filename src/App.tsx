@@ -46,10 +46,10 @@ function buildPatientSubgraph(patientId: string) {
 
 // ── Layout metadata ────────────────────────────────────────────────────────
 const LAYOUTS: { id: LayoutMode; label: string; desc: string; icon: any }[] = [
+  { id: 'hierarchical', label: 'Horizontal',   desc: 'Left-to-right flow', icon: GitBranch },
   { id: 'force',        label: 'Free Force',   desc: 'Physics-driven',     icon: Zap },
   { id: 'radial',       label: 'Radial',       desc: 'Rings by type',      icon: Circle },
   { id: 'clustered',    label: 'Clustered',    desc: 'Groups by category', icon: LayoutGrid },
-  { id: 'hierarchical', label: 'Hierarchical', desc: 'Layer by depth',     icon: GitBranch },
 ];
 
 export default function App() {
@@ -383,7 +383,7 @@ export default function App() {
                   background: 'rgba(0,240,255,0.18)', color: '#00f0ff',
                   border: '1px solid rgba(0,240,255,0.35)',
                 }}>
-                  {layoutMode === 'radial' ? 'RADIAL' : layoutMode === 'clustered' ? 'CLUSTER' : 'HIER'}
+                  {layoutMode === 'radial' ? 'RADIAL' : layoutMode === 'clustered' ? 'CLUSTER' : 'HORIZ'}
                 </span>
               )}
             </button>
