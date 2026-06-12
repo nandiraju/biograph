@@ -366,7 +366,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
         </button>
 
         {showFilters && (
-          <div className="grid grid-cols-2 gap-2 mt-1.5 font-mono text-[11px]">
+          <div className="grid grid-cols-2 gap-2 mt-3 font-mono text-[11px]">
             {Object.keys(nodeTypeColors).map((type) => {
               const isExcluded = filterTypes.includes(type);
               const color = nodeTypeColors[type];
@@ -404,7 +404,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
         </button>
 
         {showConfig && (
-          <div className="flex flex-col gap-3.5 mt-1.5 font-mono text-[11px] text-gray-400">
+          <div className="flex flex-col gap-3.5 mt-3 font-mono text-[11px] text-gray-400">
             {/* Link Distance */}
             <div className="flex flex-col gap-1">
               <div className="flex justify-between">
