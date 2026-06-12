@@ -1,0 +1,5 @@
+/* App-specific custom overrides */
+.app-container {
+  width: 100%;
+  height: 100%;
+}

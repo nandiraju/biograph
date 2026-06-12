@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+:root {
+  --bg-dark: #050811;
+  --bg-darker: #020409;
+  --panel-bg: rgba(9, 14, 25, 0.75);
+  --panel-border: rgba(0, 240, 255, 0.15);
+  --cyan-glow: rgba(0, 240, 255, 0.25);
+  --cyan-text: #00f0ff;
+  --purple-text: #b624ff;
+  --green-text: #00ff66;
+  --gold-text: #ffe600;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-mono: 'Share Tech Mono', ui-monospace, monospace;
+  
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+body {
+  background-color: var(--bg-darker);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border-inline: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.4);
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+              inset 0 0 20px rgba(0, 240, 255, 0.03);
+  border-radius: 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45),
+              0 0 15px rgba(0, 240, 255, 0.08),
+              inset 0 0 20px rgba(0, 240, 255, 0.05);
+}
+
+/* Glowing text effects */
+.glow-cyan {
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+.glow-green {
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.6);
+}
+
+.glow-purple {
+  text-shadow: 0 0 8px rgba(182, 36, 255, 0.6);
+}
+
+/* Scanner Laser Line */
+
+/* Search bar glow input */
+.search-glow-input {
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 0 0 transparent;
+  transition: border-color 0.2s ease, box-shadow 0.25s ease;
+}
+
+.search-glow-input:hover {
+  border-color: rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.08);
+}
+
+.search-glow-input:focus {
+  border-color: rgba(0, 240, 255, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.25),
+    0 0 12px rgba(0, 240, 255, 0.20),
+    0 0 24px rgba(0, 240, 255, 0.08),
+    inset 0 0 10px rgba(0, 240, 255, 0.04);
+}
+
+
+/* Grid overlay background */
+.hud-dots-bg {
+  background-size: 30px 30px;
+  background-image: 
+    radial-gradient(circle, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+}
+
+/* Three.js graph container */
+.graph-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  outline: none;
+}
+
+/* Custom 3D graph tooltips override */
+.graph-tooltip {
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
+  background: rgba(2, 4, 9, 0.95) !important;
+  border: 1px solid rgba(0, 240, 255, 0.3) !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.15) !important;
+  pointer-events: none !important;
+}
+
+.graph-tooltip-title {
+  font-family: var(--font-heading);
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+/* Action button animations */
+.btn-action {
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-action:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-action:active {
+  transform: translateY(1px);
+}
+
+.btn-action.active {
+  background: rgba(0, 240, 255, 0.25);
+  border-color: var(--cyan-text);
+  color: var(--cyan-text);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+  font-weight: bold;
+}
