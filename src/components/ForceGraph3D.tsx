@@ -389,17 +389,6 @@ export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
 
   return (
     <div ref={containerRef} className="graph-container" style={{ position: 'relative' }}>
-      {/* Renderer HUD */}
-      <div style={{
-        position: 'absolute', top: 12, left: 12, zIndex: 10,
-        fontFamily: 'monospace', fontSize: 8, color: 'rgba(0,240,255,0.35)',
-        pointerEvents: 'none', textTransform: 'uppercase', lineHeight: 1.7,
-        letterSpacing: '0.05em',
-      }}>
-        RENDERER: WEBGL 3D // ENGINE: THREE.JS<br />
-        PHYSICS FORCE: EULER D3-3D<br />
-        STATUS: ACTIVE
-      </div>
 
       {/* Controls hint */}
       <div style={{
