@@ -20,15 +20,15 @@ const RADIAL_R: Record<string, number> = {
   trial: 230,
 };
 
-// Y-layer for HIERARCHICAL mode (higher = more "root")
-const HIER_Y: Record<string, number> = {
-  patient: 120,
-  cancer: 60,
-  gene: 0,
-  variant: -60,
-  biomarker: -60,
-  drug: -130,
-  trial: -190,
+// X-layer for HIERARCHICAL mode (patient on left, flowing to right)
+const HIER_X: Record<string, number> = {
+  patient: -200,
+  cancer: -120,
+  gene: -40,
+  variant: 40,
+  biomarker: 40,
+  drug: 120,
+  trial: 200,
 };
 
 // Cluster centres for CLUSTERED mode
@@ -91,12 +91,12 @@ function positionNodes(nodes: any[], mode: LayoutMode) {
 
   if (mode === 'hierarchical') {
     for (const [type, group] of Object.entries(byType)) {
-      const y = HIER_Y[type] ?? 0;
+      const x = HIER_X[type] ?? 0;
       const span = 90;
       group.forEach((n, i) => {
         const offset = group.length > 1 ? (i / (group.length - 1) - 0.5) * span * 2 : 0;
-        n.fx = offset;
-        n.fy = y;
+        n.fx = x;
+        n.fy = offset;
         n.fz = (Math.random() - 0.5) * 40;
       });
     }

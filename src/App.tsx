@@ -73,7 +73,7 @@ export default function App() {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // ── Layout state ──
-  const [layoutMode,    setLayoutMode]    = useState<LayoutMode>('force');
+  const [layoutMode,    setLayoutMode]    = useState<LayoutMode>('hierarchical');
   const [layoutOpen,    setLayoutOpen]    = useState(false);
   const [isOrganizing,  setIsOrganizing]  = useState(false);
   const layoutPanelRef = useRef<HTMLDivElement>(null);
