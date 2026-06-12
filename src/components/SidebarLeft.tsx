@@ -212,7 +212,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               >
                 {LIMIT_OPTIONS.map(n => (
                   <option key={n} value={n} style={{ background: '#040b12', color: n === patientLimit ? '#00f0ff' : '#d1d5db' }}>
-                    {n} pts
+                    {n}
                   </option>
                 ))}
               </select>
