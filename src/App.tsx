@@ -58,6 +58,7 @@ export default function App() {
   const [filterTypes,       setFilterTypes]        = useState<string[]>([]);
   const [searchQuery,       setSearchQuery]         = useState('');
   const [selectedNode,      setSelectedNode]        = useState<OncologyNode | null>(null);
+  const [patientLimit,      setPatientLimit]        = useState<number>(20);
 
   // ── Physics / display state ──
   const [linkDistance,   setLinkDistance]   = useState(90);
@@ -150,10 +151,23 @@ export default function App() {
   }, []);
 
   // ── Graph data ──
+  const allPatients = oncologyData.nodes.filter(n => n.type === 'patient');
+  const limitedPatientIds = new Set(allPatients.slice(0, patientLimit).map(n => n.id));
+
   const baseData = useMemo(() => {
     if (selectedPatientId) return buildPatientSubgraph(selectedPatientId);
-    return { nodes: oncologyData.nodes, links: oncologyData.links };
-  }, [selectedPatientId]);
+    // Slice patients to the chosen limit, keep all non-patient nodes
+    const nodes = oncologyData.nodes.filter(
+      n => n.type !== 'patient' || limitedPatientIds.has(n.id)
+    );
+    const nodeIds = new Set(nodes.map(n => n.id));
+    const links = oncologyData.links.filter(l => {
+      const s = typeof l.source === 'object' ? (l.source as any).id : l.source;
+      const t = typeof l.target === 'object' ? (l.target as any).id : l.target;
+      return nodeIds.has(s) && nodeIds.has(t);
+    });
+    return { nodes, links };
+  }, [selectedPatientId, patientLimit]);
 
   const filteredData = useMemo(() => {
     const nodes = baseData.nodes.filter(n => !filterTypes.includes(n.type));
@@ -262,6 +276,8 @@ export default function App() {
             onToggleAutoRotate={() => setAutoRotate(!autoRotate)}
             showLabels={showLabels}
             onToggleLabels={() => setShowLabels(!showLabels)}
+            patientLimit={patientLimit}
+            onPatientLimitChange={(n) => { setPatientLimit(n); setSelectedPatientId(null); setSelectedNode(null); }}
           />
         </div>
 

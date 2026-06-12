@@ -3,7 +3,7 @@ import { Search, Settings, Filter, Layers, Users, User, ChevronDown, CheckSquare
 import { oncologyData } from '../data/mockOncologyData';
 
 interface SidebarLeftProps {
-  selectedPatientId: string | null;   // null = All Patients
+  selectedPatientId: string | null;
   onSelectPatient: (id: string | null) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
@@ -22,6 +22,10 @@ interface SidebarLeftProps {
   onToggleAutoRotate: () => void;
   showLabels: boolean;
   onToggleLabels: () => void;
+
+  // Patient limit
+  patientLimit: number;
+  onPatientLimitChange: (n: number) => void;
 }
 
 const nodeTypeColors: Record<string, string> = {
@@ -41,7 +45,8 @@ const formatTypeName = (type: string) => {
 };
 
 // Pull all patients from data
-const patients = oncologyData.nodes.filter(n => n.type === 'patient');
+const ALL_PATIENTS = oncologyData.nodes.filter(n => n.type === 'patient');
+const LIMIT_OPTIONS = [10, 20, 30, 40, 50, 75, 100];
 
 export const SidebarLeft: React.FC<SidebarLeftProps> = ({
   selectedPatientId,
@@ -61,6 +66,8 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
   onToggleAutoRotate,
   showLabels,
   onToggleLabels,
+  patientLimit,
+  onPatientLimitChange,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [showConfig, setShowConfig]   = useState(false);
@@ -163,7 +170,76 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
           <span
             className="text-[10px] font-mono px-1.5 py-0.5 rounded"
             style={{ background: 'rgba(0,240,255,0.1)', color: '#00f0ff', border: '1px solid rgba(0,240,255,0.25)' }}
-          >{patients.length}</span>
+          >{Math.min(patientLimit, ALL_PATIENTS.length)} / {ALL_PATIENTS.length}</span>
+        </div>
+
+        {/* ── PATIENT LIMIT DROPDOWN ── */}
+        <div
+          style={{
+            marginBottom: '10px',
+            padding: '10px 12px',
+            borderRadius: '8px',
+            background: 'rgba(0,240,255,0.04)',
+            border: '1px solid rgba(0,240,255,0.18)',
+            boxShadow: '0 0 12px rgba(0,240,255,0.06)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 900, letterSpacing: '0.1em', color: 'rgba(0,240,255,0.7)', textTransform: 'uppercase', fontFamily: 'monospace' }}>Load Patients</span>
+              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', fontFamily: 'sans-serif' }}>controls graph density</span>
+            </div>
+            <div style={{ position: 'relative', flexShrink: 0 }}>
+              <select
+                value={patientLimit}
+                onChange={(e) => onPatientLimitChange(Number(e.target.value))}
+                style={{
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  background: 'rgba(0,0,0,0.6)',
+                  border: '1px solid rgba(0,240,255,0.4)',
+                  borderRadius: '6px',
+                  color: '#00f0ff',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  fontFamily: 'monospace',
+                  padding: '5px 28px 5px 10px',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  boxShadow: '0 0 8px rgba(0,240,255,0.15)',
+                  minWidth: '72px',
+                }}
+              >
+                {LIMIT_OPTIONS.map(n => (
+                  <option key={n} value={n} style={{ background: '#040b12', color: n === patientLimit ? '#00f0ff' : '#d1d5db' }}>
+                    {n} pts
+                  </option>
+                ))}
+              </select>
+              {/* Custom chevron arrow */}
+              <div style={{
+                position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)',
+                pointerEvents: 'none', color: 'rgba(0,240,255,0.7)', fontSize: '10px',
+              }}>▾</div>
+            </div>
+          </div>
+
+          {/* Mini progress dots */}
+          <div style={{ display: 'flex', gap: '3px', marginTop: '8px', alignItems: 'center' }}>
+            {LIMIT_OPTIONS.map(n => (
+              <div
+                key={n}
+                onClick={() => onPatientLimitChange(n)}
+                title={`${n} patients`}
+                style={{
+                  flex: 1, height: '3px', borderRadius: '99px', cursor: 'pointer',
+                  background: n <= patientLimit ? '#00f0ff' : 'rgba(255,255,255,0.08)',
+                  boxShadow: n <= patientLimit ? '0 0 4px rgba(0,240,255,0.5)' : 'none',
+                  transition: 'all 0.2s',
+                }}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Scrollable patient list */}
@@ -196,7 +272,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               >
                 All Patients
               </div>
-              <div className="text-[10.5px] text-gray-500 font-sans">{patients.length} patients • full cohort</div>
+              <div className="text-[10px] text-gray-500 font-sans">{Math.min(patientLimit, ALL_PATIENTS.length)} loaded • full cohort</div>
             </div>
             {selectedPatientId === null && (
               <span className="text-[#00ff66] text-[9px] font-mono animate-pulse shrink-0">● ACTIVE</span>
@@ -211,7 +287,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
           </div>
 
           {/* Individual patient rows */}
-          {patients.map((pt) => {
+          {ALL_PATIENTS.slice(0, patientLimit).map((pt) => {
             const isActive = selectedPatientId === pt.id;
             const cancerLink = oncologyData.links.find(l =>
               (l.source === pt.id || (l.source as any)?.id === pt.id) && l.type === 'diagnosed_with'
