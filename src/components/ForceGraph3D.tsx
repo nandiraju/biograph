@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import ForceGraph3DLib from 'react-force-graph-3d';
 import * as THREE from 'three';
-import { LayoutGrid, Zap, Circle, AlignVerticalDistributeCenter, GitBranch } from 'lucide-react';
 import type { OncologyData, OncologyNode } from '../data/mockOncologyData';
 
 // ── Layout definitions ────────────────────────────────────────────────────────
-type LayoutMode = 'force' | 'radial' | 'clustered' | 'hierarchical';
+export type LayoutMode = 'force' | 'radial' | 'clustered' | 'hierarchical';
+
 
 const TYPE_ORDER: Record<string, number> = {
   patient: 0, cancer: 1, gene: 2, variant: 3, biomarker: 4, drug: 5, trial: 6,
@@ -114,6 +114,7 @@ interface ForceGraph3DProps {
   particleRate: number;
   autoRotate: boolean;
   showLabels: boolean;
+  layoutMode: LayoutMode;
 }
 
 export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
@@ -125,14 +126,12 @@ export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
   particleRate,
   autoRotate,
   showLabels,
+  layoutMode,
 }) => {
   const fgRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   const [hoverNode, setHoverNode] = useState<OncologyNode | null>(null);
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>('force');
-  const [layoutOpen, setLayoutOpen] = useState(false);
-  const [isOrganizing, setIsOrganizing] = useState(false);
 
   // Track container size via ResizeObserver
   useEffect(() => {
@@ -183,14 +182,6 @@ export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
     }, 100);
     return () => clearTimeout(t);
   }, [layoutMode, data]);
-
-  // Apply layout on re-organize click (animate)
-  const handleOrganize = useCallback((mode: LayoutMode) => {
-    setIsOrganizing(true);
-    setLayoutMode(mode);
-    setLayoutOpen(false);
-    setTimeout(() => setIsOrganizing(false), 1200);
-  }, []);
 
   // Camera: focus on selected node
   // Uses a small delay to allow force layout to settle on new data before reading node positions
@@ -430,103 +421,6 @@ export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
         </div>
       </div>
 
-      {/* ── Layout Organizer Button ─────────────────────────────────────── */}
-      <div style={{ position: 'absolute', bottom: 44, left: 12, zIndex: 20 }}>
-        {/* Popup panel */}
-        {layoutOpen && (
-          <div style={{
-            position: 'absolute', bottom: '100%', left: 0, marginBottom: 8,
-            background: 'rgba(2,6,14,0.96)',
-            border: '1px solid rgba(0,240,255,0.25)',
-            borderRadius: 10,
-            boxShadow: '0 0 24px rgba(0,240,255,0.10), 0 8px 32px rgba(0,0,0,0.8)',
-            padding: '8px',
-            width: 210,
-            fontFamily: 'monospace',
-          }}>
-            {/* Title row */}
-            <div style={{ fontSize: 9, color: 'rgba(0,240,255,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 6px 8px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 6 }}>
-              Organize Layout
-            </div>
-
-            {([
-              { id: 'force',        label: 'Free Force',    desc: 'Physics-driven',       icon: Zap },
-              { id: 'radial',       label: 'Radial',        desc: 'Rings by type',        icon: Circle },
-              { id: 'clustered',    label: 'Clustered',     desc: 'Groups by category',   icon: LayoutGrid },
-              { id: 'hierarchical', label: 'Hierarchical',  desc: 'Layer by depth',       icon: GitBranch },
-            ] as const).map(({ id, label, desc, icon: Icon }) => {
-              const active = layoutMode === id;
-              return (
-                <button
-                  key={id}
-                  onClick={() => handleOrganize(id as LayoutMode)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    width: '100%', textAlign: 'left',
-                    background: active ? 'rgba(0,240,255,0.08)' : 'transparent',
-                    border: active ? '1px solid rgba(0,240,255,0.30)' : '1px solid transparent',
-                    borderRadius: 7, padding: '7px 9px', cursor: 'pointer',
-                    marginBottom: 3, transition: 'all 0.15s',
-                  }}
-                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
-                  onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-                >
-                  <Icon size={14} style={{ color: active ? '#00f0ff' : 'rgba(255,255,255,0.35)', flexShrink: 0 }} />
-                  <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: active ? '#00f0ff' : 'rgba(255,255,255,0.8)', lineHeight: 1.2 }}>
-                      {label}
-                    </div>
-                    <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', marginTop: 1 }}>
-                      {desc}
-                    </div>
-                  </div>
-                  {active && (
-                    <div style={{ marginLeft: 'auto', width: 6, height: 6, borderRadius: '50%', background: '#00f0ff', boxShadow: '0 0 6px #00f0ff' }} />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Trigger button */}
-        <button
-          onClick={() => setLayoutOpen(o => !o)}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 7,
-            background: layoutOpen ? 'rgba(0,240,255,0.12)' : 'rgba(2,6,14,0.88)',
-            border: `1px solid ${layoutOpen ? 'rgba(0,240,255,0.5)' : 'rgba(0,240,255,0.22)'}`,
-            borderRadius: 8,
-            padding: '6px 12px',
-            color: layoutOpen ? '#00f0ff' : 'rgba(0,240,255,0.75)',
-            fontFamily: 'monospace', fontSize: 10, fontWeight: 700,
-            letterSpacing: '0.08em', textTransform: 'uppercase',
-            cursor: 'pointer',
-            boxShadow: layoutOpen
-              ? '0 0 16px rgba(0,240,255,0.18)'
-              : '0 0 8px rgba(0,240,255,0.06)',
-            transition: 'all 0.2s',
-          }}
-        >
-          <AlignVerticalDistributeCenter
-            size={13}
-            style={{
-              animation: isOrganizing ? 'spin 0.8s linear infinite' : 'none',
-              color: 'inherit',
-            }}
-          />
-          Organize Layout
-          {layoutMode !== 'force' && (
-            <span style={{
-              fontSize: 8, padding: '1px 5px', borderRadius: 4,
-              background: 'rgba(0,240,255,0.15)', color: '#00f0ff',
-              border: '1px solid rgba(0,240,255,0.3)', marginLeft: 2,
-            }}>
-              {layoutMode === 'radial' ? 'RADIAL' : layoutMode === 'clustered' ? 'CLUSTER' : 'HIER'}
-            </span>
-          )}
-        </button>
-      </div>
 
       <ForceGraph3DLib
         ref={fgRef}

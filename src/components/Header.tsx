@@ -2,17 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Activity, Clock } from 'lucide-react';
 import { oncologyData } from '../data/mockOncologyData';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  extraControls?: React.ReactNode;
+}
+
+export const Header: React.FC<HeaderProps> = ({ extraControls }) => {
   const [currentTime, setCurrentTime] = useState('');
 
   // Clock effect
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const yr = now.getFullYear();
-      const mo = String(now.getMonth() + 1).padStart(2, '0');
-      const dy = String(now.getDate()).padStart(2, '0');
-      const hr = String(now.getHours()).padStart(2, '0');
+      const yr  = now.getFullYear();
+      const mo  = String(now.getMonth() + 1).padStart(2, '0');
+      const dy  = String(now.getDate()).padStart(2, '0');
+      const hr  = String(now.getHours()).padStart(2, '0');
       const min = String(now.getMinutes()).padStart(2, '0');
       const sec = String(now.getSeconds()).padStart(2, '0');
       setCurrentTime(`${yr}-${mo}-${dy} | ${hr}:${min}:${sec}`);
@@ -24,25 +28,24 @@ export const Header: React.FC = () => {
 
   // Compute live metrics
   const patientCount = oncologyData.nodes.filter(n => n.type === 'patient').length;
-  const geneCount = oncologyData.nodes.filter(n => n.type === 'gene').length;
+  const geneCount    = oncologyData.nodes.filter(n => n.type === 'gene').length;
   const variantCount = oncologyData.nodes.filter(n => n.type === 'variant').length;
-  const drugCount = oncologyData.nodes.filter(n => n.type === 'drug').length;
-  const linkCount = oncologyData.links.length;
+  const drugCount    = oncologyData.nodes.filter(n => n.type === 'drug').length;
+  const linkCount    = oncologyData.links.length;
 
   return (
-    <header 
+    <header
       className="w-full h-16 border-b border-[rgba(0,240,255,0.15)] px-6 flex items-center justify-between relative z-30 select-none"
       style={{
         background: 'rgba(2, 4, 9, 0.9)',
         backdropFilter: 'blur(12px)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
       }}
     >
       {/* Brand & Logo */}
       <div className="flex items-center gap-3">
-        {/* Logo image */}
         <img
-          src="/onecell-logo.png"
+          src={`${import.meta.env.BASE_URL}onecell-logo.png`}
           alt="1Cell Precision Oncology"
           style={{
             height: '46px',
@@ -82,16 +85,21 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Clock and System Status */}
-      <div className="flex items-center gap-4 font-mono">
+      {/* Right side — extra controls + clock + status */}
+      <div className="flex items-center gap-3 font-mono">
+        {/* Extra controls injected from App (sidebar toggles, fullscreen) */}
+        {extraControls && (
+          <div className="flex items-center gap-2 border-r border-white/10 pr-3 mr-1">
+            {extraControls}
+          </div>
+        )}
+
+        {/* Clock */}
         <div className="flex items-center gap-2 text-[10px] text-gray-400">
           <Clock className="w-3.5 h-3.5 text-[#00f0ff]/70" />
           <span>{currentTime}</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-0.5 border border-[#00ff66]/30 bg-[#00ff66]/5 rounded text-[8px] text-[#00ff66] font-bold tracking-wider uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00ff66] animate-ping" />
-          SECURE
-        </div>
+
       </div>
     </header>
   );

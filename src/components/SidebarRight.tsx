@@ -32,10 +32,11 @@ export const SidebarRight: React.FC<SidebarRightProps> = ({
   if (!selectedNode) {
     return (
       <div 
-        className="w-80 h-full flex flex-col p-6 border-l border-[rgba(0,240,255,0.15)] select-none shrink-0"
+        className="w-80 h-full flex flex-col border-l border-[rgba(0,240,255,0.15)] select-none shrink-0"
         style={{
           background: 'rgba(2, 4, 9, 0.85)',
           backdropFilter: 'blur(16px)',
+          padding: '24px 28px',
         }}
       >
         <div className="flex-1 flex flex-col items-center justify-center text-center font-mono">
@@ -75,11 +76,12 @@ export const SidebarRight: React.FC<SidebarRightProps> = ({
 
   return (
     <div 
-      className="w-80 h-full flex flex-col p-4 border-l border-[rgba(0,240,255,0.15)] select-none shrink-0"
+      className="w-80 h-full flex flex-col border-l border-[rgba(0,240,255,0.15)] select-none shrink-0"
       style={{
         background: 'rgba(2, 4, 9, 0.85)',
         backdropFilter: 'blur(16px)',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        padding: '20px 28px',
       }}
     >
       {/* Title Header */}

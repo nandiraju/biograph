@@ -49,6 +49,14 @@ body {
   flex-direction: column;
 }
 
+/* Ensure app fills the screen when #root is the fullscreen element */
+#root:fullscreen,
+#root:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  background: #020409;
+}
+
 /* Scrollbars */
 ::-webkit-scrollbar {
   width: 5px;
@@ -193,4 +201,23 @@ body {
   color: var(--cyan-text);
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
   font-weight: bold;
+}
+
+/* ── Global font-size +2px bump ────────────────────────────────────────────
+   Override specific Tailwind JIT text-[Npx] classes used throughout the app.
+   Only font-size is changed — no layout or spacing impact.
+──────────────────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-\[7px\]    { font-size:  9px; }
+  .text-\[7\.5px\] { font-size: 9\.5px; }
+  .text-\[8px\]    { font-size: 10px; }
+  .text-\[8\.5px\] { font-size: 10\.5px; }
+  .text-\[9px\]    { font-size: 11px; }
+  .text-\[10px\]   { font-size: 12px; }
+  .text-\[11px\]   { font-size: 13px; }
+  .text-\[12px\]   { font-size: 14px; }
+  .text-\[13px\]   { font-size: 15px; }
+  /* Tailwind named sizes also bumped +2px */
+  .text-xs { font-size: 14px; }  /* 12 → 14 */
+  .text-sm { font-size: 16px; }  /* 14 → 16 */
 }

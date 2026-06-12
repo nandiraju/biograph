@@ -77,11 +77,12 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
 
   return (
     <div
-      className="w-72 h-full flex flex-col gap-3 p-4 border-r border-[rgba(0,240,255,0.15)] select-none shrink-0"
+      className="w-72 h-full flex flex-col gap-3 border-r border-[rgba(0,240,255,0.15)] select-none shrink-0"
       style={{
         background: 'rgba(2, 4, 9, 0.88)',
         backdropFilter: 'blur(16px)',
         overflowY: 'auto',
+        padding: '20px 24px',
       }}
     >
       {/* ── SEARCH ─────────────────────────────────────────────── */}
@@ -100,7 +101,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
           {/* Label row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
             <Search className="w-3.5 h-3.5 text-[#00f0ff]/70" />
-            <span style={{ fontSize: '10px', fontWeight: 900, letterSpacing: '0.12em', color: 'rgba(0,240,255,0.82)', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '12px', fontWeight: 900, letterSpacing: '0.12em', color: 'rgba(0,240,255,0.82)', textTransform: 'uppercase' }}>
               Search Database
             </span>
           </div>
@@ -113,13 +114,13 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="gene, patient, drug..."
-              className="search-glow-input w-full bg-black/50 border border-[#00f0ff]/25 rounded-md pl-8 pr-8 text-[11px] font-sans text-white placeholder-gray-600 focus:outline-none transition-all"
+              className="search-glow-input w-full bg-black/50 border border-[#00f0ff]/25 rounded-md pl-8 pr-8 text-[13px] font-sans text-white placeholder-gray-600 focus:outline-none transition-all"
               style={{ padding: '9px 32px 9px 32px' }}
             />
             {searchQuery && (
               <button
                 onClick={() => onSearchChange('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-gray-400 hover:text-white text-[10px] transition-colors cursor-pointer"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-gray-400 hover:text-white text-[12px] transition-colors cursor-pointer"
               >
                 ×
               </button>
@@ -140,7 +141,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               >
                 <span className="text-white font-medium">{node.label}</span>
                 <span
-                  className="text-[9px] px-1.5 py-0.5 rounded font-mono uppercase"
+                  className="text-[11px] px-1.5 py-0.5 rounded font-mono uppercase"
                   style={{ color: node.color, background: `${node.color}15`, border: `1px solid ${node.color}35` }}
                 >
                   {formatTypeName(node.type)}
@@ -155,7 +156,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
       <div className="flex flex-col">
         <div className="flex items-center gap-1 border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono">
           <Users className="w-3.5 h-3.5 text-[#00f0ff]/70" />
-          <span className="text-[10px] font-black tracking-wider text-gray-300">PATIENTS</span>
+          <span className="text-[12px] font-black tracking-wider text-gray-300">PATIENTS</span>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -179,22 +180,22 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <div
-                className="font-mono text-[10px] font-bold"
+                className="font-mono text-[12px] font-bold"
                 style={{ color: selectedPatientId === null ? '#00f0ff' : '#d1d5db' }}
               >
                 All Patients
               </div>
-              <div className="text-[8.5px] text-gray-500 font-sans">{patients.length} patients • full cohort</div>
+              <div className="text-[10.5px] text-gray-500 font-sans">{patients.length} patients • full cohort</div>
             </div>
             {selectedPatientId === null && (
-              <span className="text-[#00ff66] text-[7px] font-mono animate-pulse shrink-0">● ACTIVE</span>
+              <span className="text-[#00ff66] text-[9px] font-mono animate-pulse shrink-0">● ACTIVE</span>
             )}
           </button>
 
           {/* Divider */}
           <div className="flex items-center gap-2 py-1 px-1">
             <div className="flex-1 h-px bg-white/5" />
-            <span className="text-[8px] font-mono text-gray-600 uppercase tracking-wider">Individual</span>
+            <span className="text-[10px] font-mono text-gray-600 uppercase tracking-wider">Individual</span>
             <div className="flex-1 h-px bg-white/5" />
           </div>
 
@@ -227,7 +228,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               >
                 {/* Avatar circle */}
                 <div
-                  className="flex items-center justify-center w-6 h-6 rounded-full shrink-0 font-mono text-[8px] font-bold"
+                  className="flex items-center justify-center w-6 h-6 rounded-full shrink-0 font-mono text-[10px] font-bold"
                   style={{
                     background: isActive ? 'rgba(0,240,255,0.18)' : 'rgba(255,255,255,0.05)',
                     border: `1px solid ${isActive ? '#00f0ff' : 'rgba(255,255,255,0.1)'}`,
@@ -240,23 +241,23 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
                     <span
-                      className="font-mono text-[10px] font-bold truncate"
+                      className="font-mono text-[12px] font-bold truncate"
                       style={{ color: isActive ? '#00f0ff' : '#e5e7eb' }}
                     >
                       {pt.id}
                     </span>
                     {isActive && (
-                      <span className="text-[#00ff66] text-[7px] font-mono animate-pulse shrink-0">● ACTIVE</span>
+                      <span className="text-[#00ff66] text-[9px] font-mono animate-pulse shrink-0">● ACTIVE</span>
                     )}
                   </div>
-                  <div className="text-[8px] text-gray-500 font-sans truncate">
+                  <div className="text-[10px] text-gray-500 font-sans truncate">
                     {cancerNode
                       ? <span style={{ color: '#ff2a85' }}>{cancerNode.label}</span>
                       : <span>Unknown</span>
                     }
                     <span className="text-gray-600"> • {mutationCount} mutation{mutationCount !== 1 ? 's' : ''}</span>
                   </div>
-                  <div className="text-[7.5px] text-gray-600 font-sans truncate">{pt.details.subtitle}</div>
+                  <div className="text-[9.5px] text-gray-600 font-sans truncate">{pt.details.subtitle}</div>
                 </div>
               </button>
             );
@@ -268,7 +269,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
       <div className="flex flex-col">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono text-[10px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
+          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono text-[12px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-1">
             <Filter className="w-3.5 h-3.5 text-[#00f0ff]/70" />
@@ -278,7 +279,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
         </button>
 
         {showFilters && (
-          <div className="grid grid-cols-2 gap-2 mt-1.5 font-mono text-[9px]">
+          <div className="grid grid-cols-2 gap-2 mt-1.5 font-mono text-[11px]">
             {Object.keys(nodeTypeColors).map((type) => {
               const isExcluded = filterTypes.includes(type);
               const color = nodeTypeColors[type];
@@ -306,7 +307,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
       <div className="flex flex-col">
         <button
           onClick={() => setShowConfig(!showConfig)}
-          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono text-[10px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
+          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono text-[12px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-1">
             <Settings className="w-3.5 h-3.5 text-[#00f0ff]/70" />
@@ -316,7 +317,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
         </button>
 
         {showConfig && (
-          <div className="flex flex-col gap-3.5 mt-1.5 font-mono text-[9px] text-gray-400">
+          <div className="flex flex-col gap-3.5 mt-1.5 font-mono text-[11px] text-gray-400">
             {/* Link Distance */}
             <div className="flex flex-col gap-1">
               <div className="flex justify-between">
@@ -375,7 +376,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
       </div>
 
       {/* ── LEGEND ─────────────────────────────────────────────── */}
-      <div className="mt-auto border-t border-white/5 pt-3 font-mono text-[8px] text-left text-gray-500 leading-tight">
+      <div className="mt-auto border-t border-white/5 pt-3 font-mono text-[10px] text-left text-gray-500 leading-tight">
         <div className="flex items-center gap-1.5 mb-1.5 text-gray-400 font-bold uppercase tracking-wider">
           <Layers className="w-3 h-3 text-[#00f0ff]/50" />
           <span>Clinical Legend</span>
