@@ -59,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ extraControls }) => {
             Precision Oncology
           </h1>
           <span className="text-[9px] text-[#00f0ff]/50 font-bold uppercase tracking-wider mt-1 block">
-            Interactive Knowledge Graph v2.4
+            Interactive OncoGraph
           </span>
         </div>
       </div>
