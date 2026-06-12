@@ -58,7 +58,7 @@ export default function App() {
   const [filterTypes,       setFilterTypes]        = useState<string[]>([]);
   const [searchQuery,       setSearchQuery]         = useState('');
   const [selectedNode,      setSelectedNode]        = useState<OncologyNode | null>(null);
-  const [patientLimit,      setPatientLimit]        = useState<number>(20);
+  const [patientLimit,      setPatientLimit]        = useState<number>(10);
 
   // ── Physics / display state ──
   const [linkDistance,   setLinkDistance]   = useState(90);
