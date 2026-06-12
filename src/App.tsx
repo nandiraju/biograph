@@ -16,7 +16,7 @@ import './App.css';
 
 // ── Subgraph helper ────────────────────────────────────────────────────────
 function buildPatientSubgraph(patientId: string) {
-  const nodeMap = new Map(oncologyData.nodes.map(n => [n.id, n]));
+
 
   const linkId = (l: OncologyLink) => ({
     s: typeof l.source === 'object' ? (l.source as any).id : l.source,

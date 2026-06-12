@@ -7,9 +7,7 @@ import type { OncologyData, OncologyNode } from '../data/mockOncologyData';
 export type LayoutMode = 'force' | 'radial' | 'clustered' | 'hierarchical';
 
 
-const TYPE_ORDER: Record<string, number> = {
-  patient: 0, cancer: 1, gene: 2, variant: 3, biomarker: 4, drug: 5, trial: 6,
-};
+
 
 // Radii for each type in RADIAL mode
 const RADIAL_R: Record<string, number> = {
@@ -374,7 +372,7 @@ export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
     }
 
     // Non-patient: just label sprite
-    if (!showLabels) return null;
+    if (!showLabels) return new THREE.Group(); // empty group — never null
     const label = makeLabelSprite(node, color);
     label.position.y = (node.val ?? 4) + 7;
     return label;
@@ -444,7 +442,6 @@ export const ForceGraph3D: React.FC<ForceGraph3DProps> = ({
         onNodeHover={(node: any) => setHoverNode(node ?? null)}
         onNodeClick={(node: any) => onSelectNode(node as OncologyNode)}
         onBackgroundClick={() => onSelectNode(null)}
-        controlType="orbit"
         warmupTicks={50}
         cooldownTime={8000}
       />
