@@ -356,7 +356,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
       <div className="flex flex-col">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono text-[12px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
+          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 font-mono text-[12px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-1">
             <Filter className="w-3.5 h-3.5 text-[#00f0ff]/70" />
@@ -366,7 +366,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
         </button>
 
         {showFilters && (
-          <div className="grid grid-cols-2 gap-2 mt-3 font-mono text-[11px]">
+          <div className="grid grid-cols-2 gap-2 font-mono text-[11px]" style={{ marginTop: '5px' }}>
             {Object.keys(nodeTypeColors).map((type) => {
               const isExcluded = filterTypes.includes(type);
               const color = nodeTypeColors[type];
@@ -394,7 +394,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
       <div className="flex flex-col">
         <button
           onClick={() => setShowConfig(!showConfig)}
-          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 mb-2 font-mono text-[12px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
+          className="flex items-center justify-between w-full border-b border-[#00f0ff]/15 pb-1.5 font-mono text-[12px] text-left text-gray-300 hover:text-[#00f0ff] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-1">
             <Settings className="w-3.5 h-3.5 text-[#00f0ff]/70" />
@@ -404,7 +404,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
         </button>
 
         {showConfig && (
-          <div className="flex flex-col gap-3.5 mt-3 font-mono text-[11px] text-gray-400">
+          <div className="flex flex-col gap-3.5 font-mono text-[11px] text-gray-400" style={{ marginTop: '5px' }}>
             {/* Link Distance */}
             <div className="flex flex-col gap-1">
               <div className="flex justify-between">
@@ -464,11 +464,11 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
 
       {/* ── LEGEND ─────────────────────────────────────────────── */}
       <div className="mt-auto border-t border-white/5 pt-3 font-mono text-[10px] text-left text-gray-500 leading-tight">
-        <div className="flex items-center gap-1.5 mb-1.5 text-gray-400 font-bold uppercase tracking-wider">
+        <div className="flex items-center gap-1.5 text-gray-400 font-bold uppercase tracking-wider">
           <Layers className="w-3 h-3 text-[#00f0ff]/50" />
           <span>Clinical Legend</span>
         </div>
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-2 gap-1.5" style={{ marginTop: '5px' }}>
           {Object.keys(nodeTypeColors).map(type => (
             <div key={type} className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: nodeTypeColors[type] }} />
