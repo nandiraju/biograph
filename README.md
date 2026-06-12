@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# Precision Oncology Knowledge Graph: User Navigation Manual
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This manual describes how to navigate, control, and interact with the Precision Oncology 3D Knowledge Graph application.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 3D Graph Interaction
 
-## React Compiler
+* **Rotate Camera**: Left-click and drag anywhere on the graph canvas.
+* **Pan Camera**: Right-click and drag, or hold the Control key while left-clicking and dragging.
+* **Zoom In/Out**: Scroll the mouse wheel or pinch-to-zoom on a trackpad.
+* **Select Node**: Left-click directly on any node to isolate its relationships. This updates the right sidebar with clinical profile details.
+* **Reset Selection**: Left-click on any empty space in the 3D graph canvas to clear the selection and restore the full cohort view.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Toolbar and View Options
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Located in the top-right corner of the application header:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **Toggle Left Sidebar**: Show or hide the navigation, filter, and configuration panel.
+* **Toggle Right Sidebar**: Show or hide the clinical profile details panel.
+* **Toggle Fullscreen**: Expand the application view to cover the entire screen.
+* **Layout Switcher**: Open the layout menu to reorganize nodes into structured patterns:
+  * **Force**: Standard force-directed physics layout.
+  * **Radial**: Arranges nodes in concentric rings by entity type.
+  * **Clustered**: Group nodes visually by clinical category.
+  * **Hierarchical**: Arranges nodes in vertical layers by structural depth.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Left Sidebar Controls
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* **Search**: Look up patients, genes, variants, or therapies using the autocomplete search bar.
+* **Load Patients**: Use the dropdown or the progress dot indicator to change the patient load limit. Slicing this density optimizes graph performance.
+* **Entity Filters**: Toggle individual node categories (Patient, Gene, Variant, Cancer Type, Drug, Clinical Trial, Biomarker) to filter them from the current view.
+* **Graph Controller**:
+  * **Link Distance**: Slider to adjust physical spacing between connected nodes.
+  * **Charge Strength**: Slider to adjust repulsive force between nodes.
+  * **Flow Particles**: Slider to control the speed of moving relationship status particles.
+  * **Auto Rotate Camera**: Toggle slow orbital rotation of the camera.
+  * **Render 3D Labels**: Toggle text labels directly in the 3D workspace.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Right Sidebar Profiles
+
+When a patient or other entity node is selected, this panel displays structured clinical information, variant statuses, treatment courses, and trial alignments. Click "Clear Selection" or click empty canvas space to close the details.
